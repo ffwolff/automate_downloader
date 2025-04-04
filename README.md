@@ -31,7 +31,7 @@ O nome salvo será:
 ## 📂 Estrutura esperada do projeto
 
 ```
-industra_solidaria/
+automate_downloader/
 │
 ├── chromedriver.exe             # ChromeDriver compatível com seu navegador
 ├── download_arquivos.py        # Script principal
@@ -86,74 +86,6 @@ No terminal:
 ```bash
 python download_arquivos.py
 ```
-
-## 💻 Exemplo de script (`download_arquivos.py`)
-
-```python
-import os
-import requests
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
-import time
-
-# URL da página a ser acessada
-url = 'https://www.seusite.com/sua_pagina'
-
-# Configurações do ChromeDriver
-options = Options()
-options.add_argument('--headless')
-options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
-service = Service('chromedriver.exe')
-driver = webdriver.Chrome(service=service, options=options)
-
-try:
-    driver.get(url)
-    time.sleep(3)  # Aguarda carregamento da página
-
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    grupos = soup.find_all(id='grupoPedido')
-
-    if not os.path.exists('arquivos'):
-        os.makedirs('arquivos')
-
-    for grupo in grupos:
-        nome_arquivo_element = grupo.find(id='nomeArquivo')
-        cnpj_element = grupo.find(id='cnpj')
-        onda_element = grupo.find(id='onda')
-
-        if nome_arquivo_element and cnpj_element and onda_element:
-            nome_arquivo = nome_arquivo_element.text.strip()
-            cnpj = cnpj_element.text.strip()
-            onda = onda_element.text.strip()
-
-            url_download = f"https{nome_arquivo}"
-            extensao = os.path.splitext(url_download)[1]
-            nome_final = f"{cnpj}_{onda}{extensao}"
-            caminho_completo = os.path.join('arquivos', nome_final)
-
-            try:
-                resposta = requests.get(url_download)
-                if resposta.status_code == 200:
-                    with open(caminho_completo, 'wb') as f:
-                        f.write(resposta.content)
-                    print(f"✅ Arquivo salvo: {nome_final}")
-                else:
-                    print(f"❌ Erro ao baixar: {url_download}")
-            except Exception as e:
-                print(f"⚠️ Erro ao salvar {nome_final}: {e}")
-        else:
-            print("⚠️ Elemento com dados ausentes. Pulando item...")
-
-except Exception as e:
-    print(f"Erro geral: {e}")
-finally:
-    driver.quit()
-```
-
----
 
 ## 🧠 Observações
 
