@@ -1,0 +1,21 @@
+
+chromedriver.exe
+THIRD_PARTY_NOTICES.chromedriver
+LICENSE.chromedriver
+/arquivos/
+
+# Arquivos temporários e caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.tmp
+*.bak
+
+# Arquivos do VSCode
+.vscode/
+
+# Ambiente virtual
+env/
+venv/
