@@ -1,21 +1,24 @@
-
+# Ignorar o ChromeDriver
 chromedriver.exe
-THIRD_PARTY_NOTICES.chromedriver
-LICENSE.chromedriver
-/arquivos/
 
-# Arquivos temporários e caches
+# Ignorar ambientes virtuais
+venv/
+.env/
+.env.*
+
+# Ignorar arquivos temporários e cache
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
 *.log
 *.tmp
-*.bak
 
-# Arquivos do VSCode
+# Ignorar arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos gerados pelo Visual Studio Code
 .vscode/
 
-# Ambiente virtual
-env/
-venv/
+# Ignorar diretórios de saída
+dist/
+build/
