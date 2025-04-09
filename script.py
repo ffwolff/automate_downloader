@@ -10,11 +10,11 @@ import time
 caminho_chromedriver = r'chromedriver.exe'
 
 # Pasta onde os arquivos serão salvos
-pasta_destino = r'C:\Users\FRANCO.WOLFF\Downloads'
+pasta_destino = r'SEU_DESTINO_AQUI'
 os.makedirs(pasta_destino, exist_ok=True)
 
 # URL da página HTML com os grupos
-url = 'https://cadastrosolidarioindustria.com.br/version-test/exportar_arquivos'
+url = 'SUA_URL_AQUI'
 
 # Configurações do navegador
 options = Options()
