@@ -1,32 +1,44 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 import requests
 import os
-import time
 
 # Caminho do ChromeDriver
-caminho_chromedriver = r'chromedriver.exe'
+caminho_chromedriver = r'E:\Users\Franco\Documents\repo\PYTHON\automate_downloader\chromedriver.exe'
 
 # Pasta onde os arquivos serão salvos
-pasta_destino = r'SEU_DESTINO_AQUI'
+pasta_destino = r'E:\Users\Franco\Documents\repo\PYTHON\automate_downloader\arquivos_teste'
 os.makedirs(pasta_destino, exist_ok=True)
 
 # URL da página HTML com os grupos
-url = 'SUA_URL_AQUI'
+url = 'https://cadastrosolidarioindustria.com.br/exportar_arquivos'
 
 # Configurações do navegador
 options = Options()
-options.add_argument('--headless')  # modo invisível, esconde a janela
+options.add_argument('--headless')  # modo invisível
 service = Service(caminho_chromedriver)
 driver = webdriver.Chrome(service=service, options=options)
 
 # Abre a página
 driver.get(url)
-time.sleep(5)  # Tempo para carregamento da página
 
-# Pega o HTML da página
+# Espera os elementos estarem preenchidos com conteúdo
+def wait_for_element_with_text(driver, element_id, timeout=20):
+    WebDriverWait(driver, timeout).until(
+        lambda d: any(el.text.strip() for el in d.find_elements(By.ID, element_id))
+    )
+
+try:
+    wait_for_element_with_text(driver, 'onda', timeout=20)
+except:
+    print("⚠️ Timeout esperando o campo 'onda' ser preenchido.")
+
+# Captura HTML após os dados estarem carregados
 html = driver.page_source
 soup = BeautifulSoup(html, 'html.parser')
 
@@ -52,7 +64,7 @@ for i, grupo in enumerate(grupos, start=1):
     url_completa = 'https:' + caminho_arquivo.strip()
     cnpj = elemento_cnpj.get_text(strip=True)
     onda = elemento_onda.get_text(strip=True).replace(' ', '')
-    contador = elemento_contador.get_text(strip=True).zfill(3)  # Ex: "6" -> "006"
+    contador = elemento_contador.get_text(strip=True).zfill(3)
 
     extensao = os.path.splitext(url_completa)[1]
     nome_arquivo = f"{cnpj}_{onda}_{contador}{extensao}"

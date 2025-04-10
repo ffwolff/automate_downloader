@@ -1,6 +1,10 @@
 # Ignorar o ChromeDriver
 chromedriver.exe
 
+# Ignorar arquivos baixados
+arquivos/
+arquivos_teste/
+
 # Ignorar ambientes virtuais
 venv/
 .env/

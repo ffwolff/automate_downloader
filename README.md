@@ -89,6 +89,27 @@ No terminal:
 python script.py
 ```
 
+## Como alterar os IDs usados no script
+Se a estrutura da página mudar, os ids usados para buscar os dados podem ser atualizados facilmente:
+
+1. Abra o script.py.
+2. Encontre a lista de IDs usada para aguardar o carregamento da página:
+```python
+ids_para_esperar = ['nomeArquivo', 'cnpj', 'onda', 'contador']
+```
+3. Atualize os nomes conforme os novos IDs da página.
+4. Também altere nos trechos onde os dados são extraídos:
+```python
+elemento_nome = grupo.select_one('[id=nomeArquivo]')
+elemento_cnpj = grupo.select_one('[id=cnpj]')
+elemento_onda = grupo.select_one('[id=onda]')
+elemento_contador = grupo.select_one('[id=contador]')
+```
+Basta substituir os nomes dentro das `aspas` pelo novo valor de ID correspondente. Por exemplo, se `onda` mudar para `id="numeroOnda"`, altere para
+```python
+elemento_onda = grupo.select_one('[id=numeroOnda]')
+```
+
 ## Observações
 
 - O script é robusto contra elementos ausentes ou malformados.
